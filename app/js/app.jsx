@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import Footer from './components/Footer';
 import ColorRow from './components/ColorRow';
+import AddNewRow from './components/AddNewRow';
 
 require('../css/style.scss');
 
@@ -52,6 +53,8 @@ ReactDOM.render(
     </div>
 
     {List}
+
+    <AddNewRow />
 
     <Footer />
   </div>,

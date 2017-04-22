@@ -60,6 +60,17 @@ ul.nav {
     }
 }
 
+div.field-row {
+    label {
+        display: inline-block;
+        width: 100px;
+    }
+
+    input {
+        margin-right: 20px;
+    }
+}
+
 header {
     min-height:50px;
 }

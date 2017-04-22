@@ -9,7 +9,7 @@ import AddNewRow from './components/AddNewRow';
 
 require('../css/style.scss');
 
-const List = [
+const ColorRows = [
   <ColorRow
     redInitial={ 0 }
     blueInitial={ 0 }
@@ -52,7 +52,7 @@ ReactDOM.render(
       </header>
     </div>
 
-    {List}
+    {ColorRows}
 
     <AddNewRow />
 

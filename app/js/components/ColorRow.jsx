@@ -15,7 +15,7 @@ export default class ColorRow extends Component {
     let green = this.props.greenInitial;
 
     for (let i = 0; i < MaxColor; i += 1) {
-      Row.push(<ColorStrip red={ red } blue={ blue } green={ green } />);
+      Row.push(<ColorStrip red={ red } blue={ blue } green={ green } key={ i } />);
 
       red += this.props.redStep;
       blue += this.props.blueStep;

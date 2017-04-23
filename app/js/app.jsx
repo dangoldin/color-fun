@@ -10,41 +10,33 @@ import AddNewRow from './components/AddNewRow';
 require('../css/style.scss');
 
 class ColorSection extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      colorRows: [
+        [0, 0, 0, 1, 1, 1],
+        [0, 127, 127, 1, 0, 0],
+        [127, 0, 127, 0, 1, 0],
+        [127, 127, 0, 0, 0, 1],
+      ],
+    };
+  }
+
   render() {
-    const ColorRows = [
-      <ColorRow
-        redInitial={ 0 }
-        blueInitial={ 0 }
-        greenInitial={ 0 }
-        redStep={ 1 }
-        blueStep={ 1 }
-        greenStep={ 1 }
-      />,
-      <ColorRow
-        redInitial={ 0 }
-        blueInitial={ 127 }
-        greenInitial={ 127 }
-        redStep={ 1 }
-        blueStep={ 0 }
-        greenStep={ 0 }
-      />,
-      <ColorRow
-        redInitial={ 127 }
-        blueInitial={ 0 }
-        greenInitial={ 127 }
-        redStep={ 0 }
-        blueStep={ 1 }
-        greenStep={ 0 }
-      />,
-      <ColorRow
-        redInitial={ 127 }
-        blueInitial={ 127 }
-        greenInitial={ 0 }
-        redStep={ 0 }
-        blueStep={ 0 }
-        greenStep={ 1 }
-      />,
-    ];
+    const ColorRows = this.state.colorRows.map((row, idx) => {
+      return (
+        <ColorRow
+          redInitial={ row[0] }
+          blueInitial={ row[1] }
+          greenInitial={ row[2] }
+          redStep={ row[3] }
+          blueStep={ row[4] }
+          greenStep={ row[5] }
+          key={ idx }
+        />
+      );
+    });
 
     return (
       <div className='main'>

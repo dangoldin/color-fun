@@ -21,6 +21,24 @@ class ColorSection extends Component {
         [127, 127, 0, 0, 0, 1],
       ],
     };
+
+    this.addNewColorRow = this.addNewColorRow.bind(this);
+  }
+
+  addNewColorRow(redStart, redStep, greenStart, greenStep, blueStart, blueStep) {
+    const newColorRow = [
+      parseInt(redStart, 0),
+      parseInt(greenStart, 0),
+      parseInt(blueStart, 0),
+      parseInt(redStep, 0),
+      parseInt(greenStep, 0),
+      parseInt(blueStep, 0),
+    ];
+
+    const colorRows = this.state.colorRows;
+    colorRows.push(newColorRow);
+
+    this.setState({ colorRows: colorRows });
   }
 
   render() {
@@ -48,7 +66,7 @@ class ColorSection extends Component {
 
         {ColorRows}
 
-        <AddNewRow />
+        <AddNewRow addNewColorRow={ this.addNewColorRow } />
 
         <Footer />
       </div>

@@ -38,7 +38,7 @@ export default class AddNewRow extends Component {
 
   render() {
     return (
-      <form onSubmit={ this.onSubmit }>
+      <form className='add-new-row' onSubmit={ this.onSubmit }>
         <div className='field-row'>
           <label htmlFor='redStart'>Red Start: </label>
           <input type='text' name='redStart' value={ this.state.redStart } onChange={ this.handleFieldChange } />

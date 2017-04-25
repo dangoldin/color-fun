@@ -38,7 +38,7 @@ class ColorSection extends Component {
     const colorRows = this.state.colorRows;
     colorRows.push(newColorRow);
 
-    this.setState({ colorRows: colorRows });
+    this.setState({ colorRows });
   }
 
   render() {

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import PropTypes from 'prop-types';
+
 export default class AddNewRow extends Component {
   constructor(props) {
     super(props);
@@ -41,27 +43,48 @@ export default class AddNewRow extends Component {
       <form className='add-new-row' onSubmit={ this.onSubmit }>
         <div className='field-row'>
           <label htmlFor='redStart'>Red Start: </label>
-          <input type='text' name='redStart' value={ this.state.redStart } onChange={ this.handleFieldChange } />
+          <input
+            type='text' name='redStart'
+            value={ this.state.redStart } onChange={ this.handleFieldChange }
+          />
 
           <label htmlFor='redStep'>Red Step: </label>
-          <input type='text' name='redStep' value={ this.state.redStep } onChange={ this.handleFieldChange } />
+          <input
+            type='text' name='redStep'
+            value={ this.state.redStep } onChange={ this.handleFieldChange }
+          />
         </div>
         <div className='field-row'>
           <label htmlFor='greenStart'>Green Start: </label>
-          <input type='text' name='greenStart' value={ this.state.greenStart } onChange={ this.handleFieldChange } />
-
+          <input
+            type='text' name='greenStart'
+            value={ this.state.greenStart } onChange={ this.handleFieldChange }
+          />
           <label htmlFor='greenStep'>Green Step: </label>
-          <input type='text' name='greenStep' value={ this.state.greenStep } onChange={ this.handleFieldChange } />
+          <input
+            type='text' name='greenStep'
+            value={ this.state.greenStep } onChange={ this.handleFieldChange }
+          />
         </div>
         <div className='field-row'>
           <label htmlFor='blueStart'>Blue Start: </label>
-          <input type='text' name='blueStart' value={ this.state.blueStart } onChange={ this.handleFieldChange } />
+          <input
+            type='text' name='blueStart'
+            value={ this.state.blueStart } onChange={ this.handleFieldChange }
+          />
 
           <label htmlFor='blueStep'>Blue Step: </label>
-          <input type='text' name='blueStep' value={ this.state.blueStep } onChange={ this.handleFieldChange } />
+          <input
+            type='text' name='blueStep'
+            value={ this.state.blueStep } onChange={ this.handleFieldChange }
+          />
         </div>
-        <input type='submit' value='Add' />
+        <button type='submit'>Add</button>
       </form>
     );
   }
 }
+
+AddNewRow.propTypes = {
+  addNewColorRow: PropTypes.func.isRequired,
+};

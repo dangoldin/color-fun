@@ -23,7 +23,7 @@ export default class ColorRow extends Component {
     }
 
     return (
-      <div>
+      <div className='color-row'>
         {Row}
       </div>
     );

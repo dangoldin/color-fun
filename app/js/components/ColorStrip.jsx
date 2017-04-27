@@ -8,12 +8,10 @@ export default class ColorStrip extends Component {
 
     const style = {
       backgroundColor: rgbString,
-      height: '50px',
-      width: '1px',
     };
 
     return (
-      <span style={ style }>
+      <span className='color-strip' style={ style }>
         &nbsp;
       </span>
     );

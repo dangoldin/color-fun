@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 
 export default class ColorStrip extends Component {
   render() {
-    const rgbString = `rgb( ${this.props.red}, ${this.props.green}, ${this.props.blue})`;
+    const red = Math.round(this.props.red);
+    const green = Math.round(this.props.green);
+    const blue = Math.round(this.props.blue);
+
+    const rgbString = `rgb( ${red}, ${green}, ${blue})`;
 
     const style = {
       backgroundColor: rgbString,

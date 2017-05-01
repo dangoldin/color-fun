@@ -46,11 +46,11 @@ class ColorSection extends Component {
       return (
         <ColorRow
           redInitial={ row[0] }
-          blueInitial={ row[1] }
-          greenInitial={ row[2] }
+          greenInitial={ row[1] }
+          blueInitial={ row[2] }
           redStep={ row[3] }
-          blueStep={ row[4] }
-          greenStep={ row[5] }
+          greenStep={ row[4] }
+          blueStep={ row[5] }
           key={ idx }
         />
       );

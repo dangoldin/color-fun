@@ -18,6 +18,7 @@ export default class AddNewRow extends Component {
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.randomRow = this.randomRow.bind(this);
   }
 
   onSubmit(e) {
@@ -30,16 +31,18 @@ export default class AddNewRow extends Component {
     const greenStep = this.state.greenStep;
     const blueStep = this.state.blueStep;
 
-    this.props.addNewColorRow(redStart, redStep, greenStart, greenStep, blueStart, blueStep);
+    if (this.getColorRowIfValid()) {
+      this.props.addNewColorRow(redStart, redStep, greenStart, greenStep, blueStart, blueStep);
 
-    // this.setState({
-    //   redStart: '',
-    //   redStep: '',
-    //   blueStart: '',
-    //   blueStep: '',
-    //   greenStart: '',
-    //   greenStep: '',
-    // });
+      // this.setState({
+      //   redStart: '',
+      //   redStep: '',
+      //   blueStart: '',
+      //   blueStep: '',
+      //   greenStart: '',
+      //   greenStep: '',
+      // });
+    }
   }
 
   getColorRowIfValid() {
@@ -50,17 +53,39 @@ export default class AddNewRow extends Component {
     ) {
       return (
         <ColorRow
-          redInitial={ parseInt(this.state.redStart, 10) }
-          redStep={ parseInt(this.state.redStep, 10) }
-          greenInitial={ parseInt(this.state.greenStart, 10) }
-          greenStep={ parseInt(this.state.greenStep, 10) }
-          blueInitial={ parseInt(this.state.blueStart, 10) }
-          blueStep={ parseInt(this.state.blueStep, 10) }
+          redInitial={ parseFloat(this.state.redStart) }
+          redStep={ parseFloat(this.state.redStep) }
+          greenInitial={ parseFloat(this.state.greenStart) }
+          greenStep={ parseFloat(this.state.greenStep) }
+          blueInitial={ parseFloat(this.state.blueStart) }
+          blueStep={ parseFloat(this.state.blueStep) }
         />
       );
     }
     return null;
   }
+
+  randomRow(e) {
+    e.preventDefault();
+
+    const redStart = Math.round(Math.random() * 255);
+    const greenStart = Math.round(Math.random() * 255);
+    const blueStart = Math.round(Math.random() * 255);
+
+    const redStep = Math.round(Math.random() * 10);
+    const greenStep = Math.round(Math.random() * 10);
+    const blueStep = Math.round(Math.random() * 10);
+
+    this.setState({
+      redStart,
+      greenStart,
+      blueStart,
+      redStep,
+      greenStep,
+      blueStep,
+    });
+  }
+
 
   handleFieldChange(e) {
     const newVals = {};
@@ -115,6 +140,7 @@ export default class AddNewRow extends Component {
             />
           </div>
           <button type='submit'>Add</button>
+          <button onClick={ this.randomRow }>Random</button>
         </form>
       </div>
     );

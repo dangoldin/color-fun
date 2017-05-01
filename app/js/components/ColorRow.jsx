@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ColorStrip from './ColorStrip';
 
 const MaxColor = 255;
+const MaxSteps = 255;
 
 export default class ColorRow extends Component {
   render() {
@@ -14,7 +15,10 @@ export default class ColorRow extends Component {
     let blue = this.props.blueInitial;
     let green = this.props.greenInitial;
 
-    for (let i = 0; i < MaxColor; i += 1) {
+    // Figure this out based on min step size but cap it
+    const steps = Math.min(MaxSteps, MaxColor / Math.min(Math.abs(red), Math.abs(green), Math.abs(blue)));
+
+    for (let i = 0; i < steps; i += 1) {
       Row.push(<ColorStrip red={ red } blue={ blue } green={ green } key={ i } />);
 
       red += this.props.redStep;

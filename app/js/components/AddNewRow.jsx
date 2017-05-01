@@ -47,9 +47,10 @@ export default class AddNewRow extends Component {
 
   getColorRowIfValid() {
     if (
-      this.state.redStart && this.state.redStep &&
-      this.state.greenStart && this.state.greenStep &&
-      this.state.blueStart && this.state.blueStep
+      this.state.redStart &&
+      this.state.greenStart &&
+      this.state.blueStart &&
+      (this.state.redStep + this.state.greenStep + this.state.blueStep > 0)
     ) {
       return (
         <ColorRow

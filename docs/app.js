@@ -10171,7 +10171,7 @@ var AddNewRow = function (_Component) {
   }, {
     key: 'getColorRowIfValid',
     value: function getColorRowIfValid() {
-      if (this.state.redStart && this.state.redStep && this.state.greenStart && this.state.greenStep && this.state.blueStart && this.state.blueStep) {
+      if (this.state.redStart && this.state.greenStart && this.state.blueStart && this.state.redStep + this.state.greenStep + this.state.blueStep > 0) {
         return _react2.default.createElement(_ColorRow2.default, {
           redInitial: parseFloat(this.state.redStart),
           redStep: parseFloat(this.state.redStep),

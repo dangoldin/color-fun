@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ColorStrip from './ColorStrip';
 
 const MaxColor = 255;
+const MaxSteps = 500;
 
 export default class ColorRow extends Component {
   render() {
@@ -14,17 +15,28 @@ export default class ColorRow extends Component {
     let blue = this.props.blueInitial;
     let green = this.props.greenInitial;
 
+    const rStep = this.props.redStep;
+    const gStep = this.props.greenStep;
+    const bStep = this.props.blueStep;
+
+    const numSteps = Math.min(
+      MaxSteps,
+      MaxColor / Math.min(
+        Math.abs(rStep) || MaxSteps,
+        Math.abs(gStep) || MaxSteps,
+        Math.abs(bStep) || MaxSteps,
+      ),
+    );
+
+    debugger;
+
     let i = 0;
-    while (i < 500 && (
-        (this.props.redStep !== 0 && red < MaxColor)
-        || (this.props.greenStep !== 0 && green < MaxColor)
-        || (this.props.blueStep !== 0 && blue < MaxColor))
-      ) {
+    while (i < numSteps) {
       Row.push(<ColorStrip red={ red } green={ green } blue={ blue } />);
 
-      red += this.props.redStep;
-      green += this.props.greenStep;
-      blue += this.props.blueStep;
+      red += rStep;
+      green += gStep;
+      blue += bStep;
 
       i += 1;
     }

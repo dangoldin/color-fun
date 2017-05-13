@@ -27,12 +27,12 @@ class ColorSection extends Component {
 
   addNewColorRow(redStart, redStep, greenStart, greenStep, blueStart, blueStep) {
     const newColorRow = [
-      parseInt(redStart, 0),
-      parseInt(greenStart, 0),
-      parseInt(blueStart, 0),
-      parseInt(redStep, 0),
-      parseInt(greenStep, 0),
-      parseInt(blueStep, 0),
+      parseFloat(redStart),
+      parseFloat(greenStart),
+      parseFloat(blueStart),
+      parseFloat(redStep),
+      parseFloat(greenStep),
+      parseFloat(blueStep),
     ];
 
     const colorRows = this.state.colorRows;
@@ -51,7 +51,6 @@ class ColorSection extends Component {
           redStep={ row[3] }
           greenStep={ row[4] }
           blueStep={ row[5] }
-          key={ idx }
         />
       );
     });

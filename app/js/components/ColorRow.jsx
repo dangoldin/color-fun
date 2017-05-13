@@ -28,8 +28,6 @@ export default class ColorRow extends Component {
       ),
     );
 
-    debugger;
-
     let i = 0;
     while (i < numSteps) {
       Row.push(<ColorStrip red={ red } green={ green } blue={ blue } />);

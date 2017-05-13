@@ -7180,7 +7180,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var MaxColor = 255;
-var MaxSteps = 255;
+var MaxSteps = 500;
 
 var ColorRow = function (_Component) {
   _inherits(ColorRow, _Component);
@@ -7200,15 +7200,21 @@ var ColorRow = function (_Component) {
       var blue = this.props.blueInitial;
       var green = this.props.greenInitial;
 
-      // Figure this out based on min step size but cap it
-      var steps = Math.min(MaxSteps, MaxColor / Math.min(Math.abs(red), Math.abs(green), Math.abs(blue)));
+      var rStep = this.props.redStep;
+      var gStep = this.props.greenStep;
+      var bStep = this.props.blueStep;
 
-      for (var i = 0; i < steps; i += 1) {
-        Row.push(_react2.default.createElement(_ColorStrip2.default, { red: red, blue: blue, green: green, key: i }));
+      var numSteps = Math.min(MaxSteps, MaxColor / Math.min(Math.abs(rStep) || MaxSteps, Math.abs(gStep) || MaxSteps, Math.abs(bStep) || MaxSteps));
 
-        red += this.props.redStep;
-        blue += this.props.blueStep;
-        green += this.props.greenStep;
+      var i = 0;
+      while (i < numSteps) {
+        Row.push(_react2.default.createElement(_ColorStrip2.default, { red: red, green: green, blue: blue }));
+
+        red += rStep;
+        green += gStep;
+        blue += bStep;
+
+        i += 1;
       }
 
       return _react2.default.createElement(
@@ -10120,6 +10126,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var MaxColor = 255;
+
+function roundToDecimalPlaces(num, decimalPlaces) {
+  return Math.round(num * 10 ** decimalPlaces) / 10 ** decimalPlaces;
+}
+
 var AddNewRow = function (_Component) {
   _inherits(AddNewRow, _Component);
 
@@ -10140,6 +10152,7 @@ var AddNewRow = function (_Component) {
     _this.handleFieldChange = _this.handleFieldChange.bind(_this);
     _this.onSubmit = _this.onSubmit.bind(_this);
     _this.randomRow = _this.randomRow.bind(_this);
+    _this.randomRowAndAdd = _this.randomRowAndAdd.bind(_this);
     return _this;
   }
 
@@ -10147,7 +10160,32 @@ var AddNewRow = function (_Component) {
     key: 'onSubmit',
     value: function onSubmit(e) {
       e.preventDefault();
+      this.addRow();
+    }
+  }, {
+    key: 'getColorRowIfValid',
+    value: function getColorRowIfValid() {
+      if (isNaN(this.state.redStart) || isNaN(this.state.greenStart) || isNaN(this.state.blueStart) || isNaN(this.state.redStep) || isNaN(this.state.greenStep) || isNaN(this.state.blueStep)) {
+        return null;
+      }
 
+      // At least one step is non zero
+      if (Math.abs(this.state.redStep) === 0 && Math.abs(this.state.greenStep) === 0 && Math.abs(this.state.blueStep) === 0) {
+        return null;
+      }
+
+      return _react2.default.createElement(_ColorRow2.default, {
+        redInitial: parseFloat(this.state.redStart),
+        redStep: parseFloat(this.state.redStep),
+        greenInitial: parseFloat(this.state.greenStart),
+        greenStep: parseFloat(this.state.greenStep),
+        blueInitial: parseFloat(this.state.blueStart),
+        blueStep: parseFloat(this.state.blueStep)
+      });
+    }
+  }, {
+    key: 'addRow',
+    value: function addRow() {
       var redStart = this.state.redStart;
       var greenStart = this.state.greenStart;
       var blueStart = this.state.blueStart;
@@ -10157,44 +10195,22 @@ var AddNewRow = function (_Component) {
 
       if (this.getColorRowIfValid()) {
         this.props.addNewColorRow(redStart, redStep, greenStart, greenStep, blueStart, blueStep);
-
-        // this.setState({
-        //   redStart: '',
-        //   redStep: '',
-        //   blueStart: '',
-        //   blueStep: '',
-        //   greenStart: '',
-        //   greenStep: '',
-        // });
       }
-    }
-  }, {
-    key: 'getColorRowIfValid',
-    value: function getColorRowIfValid() {
-      if (this.state.redStart && this.state.greenStart && this.state.blueStart && this.state.redStep + this.state.greenStep + this.state.blueStep > 0) {
-        return _react2.default.createElement(_ColorRow2.default, {
-          redInitial: parseFloat(this.state.redStart),
-          redStep: parseFloat(this.state.redStep),
-          greenInitial: parseFloat(this.state.greenStart),
-          greenStep: parseFloat(this.state.greenStep),
-          blueInitial: parseFloat(this.state.blueStart),
-          blueStep: parseFloat(this.state.blueStep)
-        });
-      }
-      return null;
     }
   }, {
     key: 'randomRow',
     value: function randomRow(e) {
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
 
       var redStart = Math.round(Math.random() * 255);
       var greenStart = Math.round(Math.random() * 255);
       var blueStart = Math.round(Math.random() * 255);
 
-      var redStep = Math.round(Math.random() * 10);
-      var greenStep = Math.round(Math.random() * 10);
-      var blueStep = Math.round(Math.random() * 10);
+      var redStep = roundToDecimalPlaces(Math.random() * 10 * (Math.random() > redStart / MaxColor ? 1 : -1), 2);
+      var greenStep = roundToDecimalPlaces(Math.random() * 10 * (Math.random() > greenStart / MaxColor ? 1 : -1), -2);
+      var blueStep = roundToDecimalPlaces(Math.random() * 10 * (Math.random() > blueStart / MaxColor ? 1 : -1), 2);
 
       this.setState({
         redStart: redStart,
@@ -10204,6 +10220,13 @@ var AddNewRow = function (_Component) {
         greenStep: greenStep,
         blueStep: blueStep
       });
+    }
+  }, {
+    key: 'randomRowAndAdd',
+    value: function randomRowAndAdd(e) {
+      e.preventDefault();
+      this.randomRow();
+      this.addRow();
     }
   }, {
     key: 'handleFieldChange',
@@ -10299,6 +10322,11 @@ var AddNewRow = function (_Component) {
             'button',
             { onClick: this.randomRow },
             'Random'
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: this.randomRowAndAdd },
+            'Random and Add'
           )
         )
       );
@@ -21163,7 +21191,12 @@ var ColorSection = function (_Component) {
     var _this = _possibleConstructorReturn(this, (ColorSection.__proto__ || Object.getPrototypeOf(ColorSection)).call(this, props));
 
     _this.state = {
-      colorRows: [[0, 0, 0, 1, 1, 1], [0, 127, 127, 1, 0, 0], [127, 0, 127, 0, 1, 0], [127, 127, 0, 0, 0, 1]]
+      colorRows: [
+        // [0, 0, 0, 1, 1, 1],
+        // [0, 127, 127, 1, 0, 0],
+        // [127, 0, 127, 0, 1, 0],
+        // [127, 127, 0, 0, 0, 1],
+      ]
     };
 
     _this.addNewColorRow = _this.addNewColorRow.bind(_this);
@@ -21173,7 +21206,7 @@ var ColorSection = function (_Component) {
   _createClass(ColorSection, [{
     key: 'addNewColorRow',
     value: function addNewColorRow(redStart, redStep, greenStart, greenStep, blueStart, blueStep) {
-      var newColorRow = [parseInt(redStart, 0), parseInt(greenStart, 0), parseInt(blueStart, 0), parseInt(redStep, 0), parseInt(greenStep, 0), parseInt(blueStep, 0)];
+      var newColorRow = [parseFloat(redStart), parseFloat(greenStart), parseFloat(blueStart), parseFloat(redStep), parseFloat(greenStep), parseFloat(blueStep)];
 
       var colorRows = this.state.colorRows;
       colorRows.push(newColorRow);
@@ -21190,8 +21223,7 @@ var ColorSection = function (_Component) {
           blueInitial: row[2],
           redStep: row[3],
           greenStep: row[4],
-          blueStep: row[5],
-          key: idx
+          blueStep: row[5]
         });
       });
 
